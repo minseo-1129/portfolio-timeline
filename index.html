@@ -19,8 +19,15 @@
   .app{max-width:880px;margin:32px auto;background:var(--surface);border:1px solid var(--line);
     border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
 
-  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) 32px;
-    border-bottom:1px solid var(--line);flex-wrap:wrap;gap:var(--space-sm);}
+  .topbar{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);
+    flex-wrap:wrap;
+    gap:var(--space-sm);
+  }
   .topbar nav{display:flex;gap:var(--space-lg);font-size:var(--text-small);color:var(--muted);flex-wrap:wrap;}
   .topbar nav a:hover{color:var(--accent);}
   .topbar nav a.active{color:var(--ink);font-weight:600;}
