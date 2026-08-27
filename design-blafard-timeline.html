@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blafard — Invisible Cities — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:760px;margin:32px auto;background:var(--surface);border:var(--border) solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .topbar a.back{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .topbar a.back svg{width:var(--icon-xs);height:var(--icon-xs);}
+
+  .main{padding:36px 40px 12px;}
+
+  .kicker{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:var(--space-sm);}
+
+  h1{font-size:var(--text-display);font-weight:750;letter-spacing:-0.015em;line-height:1.25;margin:0 0 var(--space-sm);}
+  .dek{color:var(--muted);font-size:var(--text-base);max-width:560px;margin:0 0 var(--space-lg);}
+
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-lg);}
+  .meta-chip{background:var(--neutral-tag);border-radius:var(--radius-pill);padding:5px 13px;
+    font-size:var(--text-micro);color:var(--muted);white-space:nowrap;}
+  .meta-chip b{color:var(--ink);font-weight:500;font-family:var(--sans);}
+
+  .sec{padding:var(--space-xl) 0;border-top:var(--border) solid var(--line);}
+  .sec .n{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;margin-bottom:var(--space-xs);}
+  .sec h2{font-size:var(--text-section);font-weight:700;letter-spacing:-0.01em;margin:0 0 var(--space-sm);}
+  .sec > p{font-size:var(--text-base);color:var(--ink);margin:0 0 var(--space-md);}
+  .sec p.lead{}
+  .sec p.muted{color:var(--muted);}
+  .sec em.is-emphasis, .sec strong.is-emphasis{color:var(--ink);font-weight:650;}
+
+  /* CALLOUT */
+  .callout{border-radius:var(--radius-lg);margin-bottom:var(--space-sm);}
+  .callout__label{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .callout__body{margin:0;color:var(--ink);font-size:var(--text-base);}
+  .callout--question{position:relative;padding:var(--space-sm) 0 var(--space-sm) var(--space-lg);margin-bottom:var(--space-xl);}
+  .callout--question::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+    border-radius:var(--radius-pill);background:var(--accent);}
+  .callout--question .callout__label{color:var(--accent);}
+  .callout--question .callout__body{color:var(--ink);font-size:var(--text-base);font-style:italic;}
+  .callout--note{padding:var(--space-md);background:var(--accent-soft);border-radius:var(--radius-lg);text-align:center;}
+  .callout--caution{display:block;padding-top:var(--space-sm);border-top:var(--border) dashed var(--line);
+    color:var(--muted);font-size:var(--text-small);margin:var(--space-md) 0;}
+  .callout--takeaway{padding:var(--space-lg);background:var(--ink);margin:8px 0 var(--space-xl);}
+  .callout--takeaway .callout__label{color:var(--inverse-muted);}
+  .callout--takeaway .callout__body{color:var(--inverse);font-weight:600;}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:var(--space-md) 0;}
+  .data-table{width:100%;min-width:440px;border-collapse:collapse;font-size:var(--text-small);}
+  .data-table th{color:var(--accent);font-family:var(--mono);font-size:var(--text-micro);font-weight:400;
+    text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:var(--space-sm) var(--space-md);
+    border-bottom:var(--border) solid var(--line);}
+  .data-table th.is-numeric{text-align:right;}
+  .data-table td{padding:var(--space-sm) var(--space-md);color:var(--muted);vertical-align:top;
+    border-bottom:var(--border) solid var(--line);}
+  .data-table tbody tr:last-child td{border-bottom:none;}
+  .data-table td strong{display:block;color:var(--ink);font-weight:500;margin-bottom:2px;}
+  .data-table td span{display:block;color:var(--muted);font-size:var(--text-micro);}
+  .is-numeric{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;
+    color:var(--ink);white-space:nowrap;}
+  .is-emphasis{color:var(--accent);font-weight:400;}
+  .is-muted{color:var(--muted);font-style:italic;}
+
+  /* KEY-VALUE */
+  .key-value{display:grid;grid-template-columns:max-content 1fr;column-gap:var(--space-md);margin:var(--space-md) 0;}
+  .key-value__row{display:contents;}
+  .key-value__row .key-value__key{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row .key-value__value{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row:last-child .key-value__key,
+  .key-value__row:last-child .key-value__value{border-bottom:none;}
+  .key-value__key{max-width:200px;flex-shrink:0;color:var(--ink);font-weight:500;font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value{min-width:0;color:var(--muted);font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value .term{display:inline-block;background:var(--neutral-tag);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);padding:3px 10px;border-radius:var(--radius-pill);margin:2px 4px 2px 0;}
+  .key-value--numbered .key-value__row{align-items:flex-start;}
+  .key-value__index{flex-shrink:0;width:20px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);padding-top:1px;}
+
+  /* CARD */
+  .card-grid{display:grid;gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .card-grid--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .card-grid--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .card{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);box-sizing:border-box;}
+  .card__label{display:block;margin-bottom:5px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .card__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .card__body{color:var(--ink);font-size:var(--text-small);line-height:1.5;}
+
+  /* PROCESS */
+  .process{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+    border:var(--border) solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);
+    margin:var(--space-sm) 0;}
+  .process__node{padding:var(--space-md);border-left:var(--border) solid var(--line);}
+  .process__node:first-child{border-left:none;}
+  .process__index{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);}
+  .process__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .process__body{color:var(--muted);font-size:var(--text-small);line-height:1.5;}
+
+  /* METRIC GROUP */
+  .metric-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .metric{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);text-align:center;}
+  .metric__value{display:block;margin-bottom:4px;color:var(--accent);font-family:var(--mono);
+    font-weight:750;font-size:20px;}
+  .metric__label{color:var(--muted);font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* CHART */
+  .chart{border:var(--border) solid var(--line);border-radius:var(--radius-lg);padding:var(--space-md);
+    background:var(--surface);margin:var(--space-md) 0;}
+  .chart__caption{margin-bottom:var(--space-sm);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .bar-row{display:grid;grid-template-columns:92px 1fr 46px;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .bar-row:first-of-type{margin-top:0;}
+  .chart__label{color:var(--ink);font-family:var(--sans);font-weight:500;font-size:var(--text-small);}
+  .bar-track{height:9px;border-radius:var(--radius-pill);background:var(--bg);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:inherit;background:var(--accent);}
+  .chart__value{color:var(--muted);font-family:var(--mono);font-size:var(--text-small);text-align:right;}
+  .chart__note{grid-column:1/-1;color:var(--muted);font-size:var(--text-micro);margin-top:-4px;}
+  .range-line{display:grid;grid-template-columns:100px 1fr;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .range-line:first-of-type{margin-top:0;}
+  .range-track{position:relative;height:20px;}
+  .range-base{position:absolute;inset:7px 0 auto;height:6px;border-radius:var(--radius-pill);background:var(--bg);}
+  .range-band{position:absolute;top:7px;left:var(--start);width:calc(var(--end) - var(--start));height:6px;
+    border-radius:var(--radius-pill);background:var(--accent-soft);}
+  .range-dot{position:absolute;top:10px;left:var(--value);width:10px;height:10px;border-radius:50%;
+    background:var(--accent);transform:translate(-50%,-50%);}
+
+  .next{display:flex;justify-content:space-between;align-items:center;padding:18px var(--space-2xl);
+    border-top:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .next a{color:var(--accent);}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:var(--border) solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .main{padding:var(--space-lg) 20px 8px;}
+    .topbar,.next,.foot{padding-left:20px;padding-right:20px;}
+    .card-grid--2,.card-grid--3,.card-grid--4{grid-template-columns:1fr;}
+    .metric-group{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .process{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr;}
+    .process__node{border-left:none;border-top:var(--border) solid var(--line);}
+    .process__node:first-child{border-top:none;}
+    .key-value__key{width:100%;}
+    h1{font-size:20px;}
+  }
+
+  /* TABLE variants */
+  .data-table td:first-child{color:var(--ink);font-weight:500;font-family:var(--sans);font-size:var(--text-small);min-width:140px;white-space:nowrap;}
+
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);margin-top:var(--space-md);}
+  .gallery img{display:block;width:100%;height:180px;object-fit:cover;border-radius:var(--radius-md);
+    border:var(--border) solid var(--line);}
+  .gallery .wide{grid-column:1/-1;}
+  .gallery .wide img{height:220px;}
+  .hero{margin-bottom:var(--space-lg);}
+  .hero img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;
+    border-radius:var(--radius-lg);border:var(--border) solid var(--line);}
+  @media (max-width:720px){ .gallery{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <a class="back" href="design-timeline.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Design</a>
+  </div>
+
+  <div class="main">
+
+    <div class="kicker">Editorial Design · 2020</div>
+    <h1>Editorial Design for <em style="font-style:italic;">Invisible Cities</em> by Italo Calvino</h1>
+    <p class="dek">Editorial design for a fictional publishing imprint.</p>
+
+    <div class="hero">
+      <img alt="Cover design and wraparound spread for Invisible Cities" src="https://minseo-1129.github.io/assets/images/blafard/cover.jpg">
+    </div>
+
+        <div class="meta-chips">
+      <span class="meta-chip"><b>Role</b> &middot; Editorial designer</span>
+      <span class="meta-chip"><b>Timeline</b> &middot; Mar &ndash; Jun 2020</span>
+      <span class="meta-chip"><b>Typefaces</b> &middot; Futura &middot; Book Antiqua</span>
+    </div>
+
+    <div class="sec">
+      <div class="n">01 &middot; DESIGN DIRECTION</div>
+      <h2>Design Direction</h2>
+      <p>The redesign treats every spread as a different way of navigating a city. Dense passages alternate with generous negative space, while fragmented black-and-white photographs create changes in scale and perspective. A single ochre accent holds the publication together without making each city feel identical.</p>
+      <div class="card-grid card-grid--3">
+        <div class="card"><span class="card__title">Editorial rhythm</span><span class="card__body">Asymmetric grids let text and images expand, contract, and interrupt one another across the book.</span></div>
+        <div class="card"><span class="card__title">Type pairing</span><span class="card__body">Futura gives chapter and display elements a constructed quality; Book Antiqua keeps long passages readable.</span></div>
+        <div class="card"><span class="card__title">Image system</span><span class="card__body">Monochrome architectural photography is cropped and recomposed, punctuated by the ochre #e2b032.</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="n">02 &middot; SELECTED SPREADS</div>
+      <h2>Selected Spreads</h2>
+      <div class="gallery">
+        <img alt="Invisible Cities spread using negative space, typography, and a monochrome image" src="https://minseo-1129.github.io/assets/images/blafard/spread-01.jpg">
+        <img alt="Invisible Cities White City spread with a large black-and-white portrait and asymmetric text columns" src="https://minseo-1129.github.io/assets/images/blafard/spread-02.jpg">
+        <div class="wide"><img alt="Invisible Cities Valdrada spread combining an ochre field, architectural photography, and multi-column text" src="https://minseo-1129.github.io/assets/images/blafard/spread-03.jpg"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div style="max-width:760px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

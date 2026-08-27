@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R-03 — When Agent Architecture Becomes Interaction Design — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:760px;margin:32px auto;background:var(--surface);border:var(--border) solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .topbar a.back{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .topbar a.back svg{width:var(--icon-xs);height:var(--icon-xs);}
+
+  .main{padding:36px 40px 12px;}
+
+  .kicker{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:var(--space-sm);}
+
+  h1{font-size:var(--text-display);font-weight:750;letter-spacing:-0.015em;line-height:1.25;margin:0 0 var(--space-sm);}
+  .dek{color:var(--muted);font-size:var(--text-base);max-width:560px;margin:0 0 var(--space-lg);}
+
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-lg);}
+  .meta-chip{background:var(--neutral-tag);border-radius:var(--radius-pill);padding:5px 13px;
+    font-size:var(--text-micro);color:var(--muted);white-space:nowrap;}
+  .meta-chip b{color:var(--ink);font-weight:500;font-family:var(--sans);}
+
+  .sec{padding:var(--space-xl) 0;border-top:var(--border) solid var(--line);}
+  .sec .n{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;margin-bottom:var(--space-xs);}
+  .sec h2{font-size:var(--text-section);font-weight:700;letter-spacing:-0.01em;margin:0 0 var(--space-sm);}
+  .sec > p{font-size:var(--text-base);color:var(--ink);margin:0 0 var(--space-md);}
+  .sec p.lead{}
+  .sec p.muted{color:var(--muted);}
+  .sec em.is-emphasis, .sec strong.is-emphasis{color:var(--ink);font-weight:650;}
+
+  /* CALLOUT */
+  .callout{border-radius:var(--radius-lg);margin-bottom:var(--space-sm);}
+  .callout__label{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .callout__body{margin:0;color:var(--ink);font-size:var(--text-base);}
+  .callout--question{position:relative;padding:var(--space-sm) 0 var(--space-sm) var(--space-lg);margin-bottom:var(--space-xl);}
+  .callout--question::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+    border-radius:var(--radius-pill);background:var(--accent);}
+  .callout--question .callout__label{color:var(--accent);}
+  .callout--question .callout__body{color:var(--ink);font-size:var(--text-base);font-style:italic;}
+  .callout--note{padding:var(--space-md);background:var(--accent-soft);border-radius:var(--radius-lg);text-align:center;}
+  .callout--caution{display:block;padding-top:var(--space-sm);border-top:var(--border) dashed var(--line);
+    color:var(--muted);font-size:var(--text-small);margin:var(--space-md) 0;}
+  .callout--takeaway{padding:var(--space-lg);background:var(--ink);margin:8px 0 var(--space-xl);}
+  .callout--takeaway .callout__label{color:var(--inverse-muted);}
+  .callout--takeaway .callout__body{color:var(--inverse);font-weight:600;}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:var(--space-md) 0;}
+  .data-table{width:100%;min-width:440px;border-collapse:collapse;font-size:var(--text-small);}
+  .data-table th{color:var(--accent);font-family:var(--mono);font-size:var(--text-micro);font-weight:400;
+    text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:var(--space-sm) var(--space-md);
+    border-bottom:var(--border) solid var(--line);}
+  .data-table th.is-numeric{text-align:right;}
+  .data-table td{padding:var(--space-sm) var(--space-md);color:var(--muted);vertical-align:top;
+    border-bottom:var(--border) solid var(--line);}
+  .data-table tbody tr:last-child td{border-bottom:none;}
+  .data-table td strong{display:block;color:var(--ink);font-weight:500;margin-bottom:2px;}
+  .data-table td span{display:block;color:var(--muted);font-size:var(--text-micro);}
+  .is-numeric{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;
+    color:var(--ink);white-space:nowrap;}
+  .is-emphasis{color:var(--accent);font-weight:400;}
+  .is-muted{color:var(--muted);font-style:italic;}
+
+  /* KEY-VALUE */
+  .key-value{display:grid;grid-template-columns:max-content 1fr;column-gap:var(--space-md);margin:var(--space-md) 0;}
+  .key-value__row{display:contents;}
+  .key-value__row .key-value__key{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row .key-value__value{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row:last-child .key-value__key,
+  .key-value__row:last-child .key-value__value{border-bottom:none;}
+  .key-value__key{max-width:200px;flex-shrink:0;color:var(--ink);font-weight:500;font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value{min-width:0;color:var(--muted);font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value .term{display:inline-block;background:var(--neutral-tag);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);padding:3px 10px;border-radius:var(--radius-pill);margin:2px 4px 2px 0;}
+  .key-value--numbered .key-value__row{align-items:flex-start;}
+  .key-value__index{flex-shrink:0;width:20px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);padding-top:1px;}
+
+  /* CARD */
+  .card-grid{display:grid;gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .card-grid--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .card-grid--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .card{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);box-sizing:border-box;}
+  .card__label{display:block;margin-bottom:5px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .card__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .card__body{color:var(--ink);font-size:var(--text-small);line-height:1.5;}
+
+  /* PROCESS */
+  .process{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+    border:var(--border) solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);
+    margin:var(--space-sm) 0;}
+  .process__node{padding:var(--space-md);border-left:var(--border) solid var(--line);}
+  .process__node:first-child{border-left:none;}
+  .process__index{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);}
+  .process__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .process__body{color:var(--muted);font-size:var(--text-small);line-height:1.5;}
+
+  /* METRIC GROUP */
+  .metric-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .metric{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);text-align:center;}
+  .metric__value{display:block;margin-bottom:4px;color:var(--accent);font-family:var(--mono);
+    font-weight:750;font-size:20px;}
+  .metric__label{color:var(--muted);font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* CHART */
+  .chart{border:var(--border) solid var(--line);border-radius:var(--radius-lg);padding:var(--space-md);
+    background:var(--surface);margin:var(--space-md) 0;}
+  .chart__caption{margin-bottom:var(--space-sm);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .bar-row{display:grid;grid-template-columns:92px 1fr 46px;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .bar-row:first-of-type{margin-top:0;}
+  .chart__label{color:var(--ink);font-family:var(--sans);font-weight:500;font-size:var(--text-small);}
+  .bar-track{height:9px;border-radius:var(--radius-pill);background:var(--bg);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:inherit;background:var(--accent);}
+  .chart__value{color:var(--muted);font-family:var(--mono);font-size:var(--text-small);text-align:right;}
+  .chart__note{grid-column:1/-1;color:var(--muted);font-size:var(--text-micro);margin-top:-4px;}
+  .range-line{display:grid;grid-template-columns:100px 1fr;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .range-line:first-of-type{margin-top:0;}
+  .range-track{position:relative;height:20px;}
+  .range-base{position:absolute;inset:7px 0 auto;height:6px;border-radius:var(--radius-pill);background:var(--bg);}
+  .range-band{position:absolute;top:7px;left:var(--start);width:calc(var(--end) - var(--start));height:6px;
+    border-radius:var(--radius-pill);background:var(--accent-soft);}
+  .range-dot{position:absolute;top:10px;left:var(--value);width:10px;height:10px;border-radius:50%;
+    background:var(--accent);transform:translate(-50%,-50%);}
+
+  .next{display:flex;justify-content:space-between;align-items:center;padding:18px var(--space-2xl);
+    border-top:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .next a{color:var(--accent);}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:var(--border) solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .main{padding:var(--space-lg) 20px 8px;}
+    .topbar,.next,.foot{padding-left:20px;padding-right:20px;}
+    .card-grid--2,.card-grid--3,.card-grid--4{grid-template-columns:1fr;}
+    .metric-group{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .process{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr;}
+    .process__node{border-left:none;border-top:var(--border) solid var(--line);}
+    .process__node:first-child{border-top:none;}
+    .key-value__key{width:100%;}
+    h1{font-size:20px;}
+  }
+
+  /* TABLE variants */
+  .data-table td:first-child{color:var(--ink);font-weight:500;font-family:var(--sans);font-size:var(--text-small);min-width:140px;white-space:nowrap;}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <a class="back" href="research-timeline.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Research</a>
+  </div>
+
+  <div class="main">
+
+    <div class="kicker">RECO / Reflective Companion</div>
+    <h1>When Agent Architecture Becomes Interaction Design</h1>
+    <p class="dek">The same conversational intentions produced different forms of reflection when organised as one prompt versus multiple functional nodes.</p>
+
+        <div class="meta-chips">
+      <span class="meta-chip"><b>Period</b> &middot; Oct 2025 &ndash; Jan 2026</span>
+      <span class="meta-chip"><b>Type</b> &middot; LLM Architecture &middot; Human&ndash;AI Interaction &middot; SDT &middot; Motivational Interviewing</span>
+      <span class="meta-chip"><b>Participants</b> &middot; 20 participants &middot; 11 paired participants &middot; 22 conversations</span>
+    </div>
+
+    <div class="callout callout--question">
+      <span class="callout__label">Research question</span>
+      <p class="callout__body">Does the way conversational responsibilities are organised change what kind of support the agent actually provides?</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">01 &middot; VARIABLE</div>
+      <h2>Architecture is invisible to users &mdash; but its consequences are not</h2>
+      <p class="lead">Two agents can share the same interface, model, purpose, safety boundaries, and design principles yet create different interactions.</p>
+      <p>Writing &ldquo;be empathetic&rdquo; does not guarantee an interaction will feel empathetic. Designing around Self-Determination Theory does not guarantee that people will experience autonomy, competence, or relatedness. Internal architecture became a design variable rather than only an implementation detail.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">02 &middot; FRAMEWORKS</div>
+      <h2>SDT described the experience; MI described the behaviour</h2>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Self-Determination Theory</span><span class="card__title">What experience?</span><span class="card__body">Autonomy &middot; meaningful choice and ownership. Competence &middot; feeling capable of moving forward. Relatedness &middot; feeling respected, connected, supported.</span></div>
+        <div class="card"><span class="card__label">Motivational Interviewing</span><span class="card__title">What behaviour?</span><span class="card__body">Open questions &middot; reflection &middot; affirmation &middot; collaboration &middot; support for personal choice.</span></div>
+      </div>
+      <p class="callout callout--caution">SDT provided the experiential target; MI gave a language for examining whether the agent&rsquo;s dialogue actually enacted reflective and motivationally sensitive behaviour.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">03 &middot; ARCHITECTURES</div>
+      <h2>Two ways of organising the same responsibilities</h2>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Single-prompt</span><span class="card__title">Integrated responsibility</span><span class="card__body">Reflection, goal management, activity recommendation, safety, tone, and interaction principles lived in one instruction space.</span></div>
+        <div class="card"><span class="card__label">Multi-node</span><span class="card__title">Separated responsibility</span><span class="card__body">Reflection, goal management, and activity recommendation were specialised into functional nodes connected through routing.</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="n">04 &middot; EXPERIENCE</div>
+      <h2>Users did not simply rate one architecture as better</h2>
+      <p class="lead">Task-level METUX ratings were broadly comparable across the two architectures.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Dimension</th><th class="is-numeric">Single-prompt</th><th class="is-numeric">Multi-node</th><th class="is-numeric">p</th></tr></thead>
+          <tbody>
+            <tr><td>Autonomy</td><td class="is-numeric">5.63</td><td class="is-numeric">5.55</td><td class="is-numeric">.635</td></tr>
+            <tr><td>Competence</td><td class="is-numeric">5.77</td><td class="is-numeric">5.52</td><td class="is-numeric">.271</td></tr>
+            <tr><td>Relatedness</td><td class="is-numeric">4.45</td><td class="is-numeric">4.38</td><td class="is-numeric">.983</td></tr>
+            <tr><td>Overall</td><td class="is-numeric">5.28</td><td class="is-numeric">5.15</td><td class="is-numeric">.575</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Single-prompt</span><span class="card__body">More open, emotionally attentive, companion-like; offered space to explore but could feel directionless.</span></div>
+        <div class="card"><span class="card__label">Multi-node</span><span class="card__body">More structured, practical, advisor-like; clearer progression but could move toward action before the person felt understood.</span></div>
+      </div>
+      <p>Similar need-support scores concealed different interactional pathways.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">05 &middot; REFLECTION</div>
+      <h2>Reflection as process vs reflection as progress</h2>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Reflection as process</span><span class="card__body">Stay with an experience &rarr; express it &rarr; interpret it &rarr; discover what matters.</span></div>
+        <div class="card"><span class="card__label">Reflection as progress</span><span class="card__body">Turn understanding into direction &rarr; clarify options &rarr; make decisions &rarr; identify a next step.</span></div>
+      </div>
+      <p class="callout callout--caution">Neither form is inherently superior &mdash; the design problem is deciding when someone needs space to remain with an experience and when they need help moving forward.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">06 &middot; BEHAVIOUR</div>
+      <h2>MITI showed what the agent actually did</h2>
+      <p>Behavioural annotation made the architectural difference visible in the dialogue itself.</p>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Single-prompt</span><span class="card__title">More reflection</span><span class="card__body">More simple reflections (p = .001), higher total-reflection proportion (p = .005), higher reflection-to-question ratio (p = .009).</span></div>
+        <div class="card"><span class="card__label">Multi-node</span><span class="card__title">More information-giving</span><span class="card__body">Higher information-giving proportion (p = .004). Zero-reflection cases occurred only here: 3/11 and 4/11 conversations.</span></div>
+      </div>
+      <p>Prompt inspection tells us what the designer asked for. User ratings tell us what the person felt. Behavioural annotation adds a third layer: what the agent actually did.</p>
+    </div>
+
+    <div class="callout callout--takeaway">
+      <span class="callout__label">Design takeaway</span>
+      <p class="callout__body">Agent architecture can support the same basic psychological needs through different interactional behaviours &mdash; and those differences may appear differently in user experience and observable agent behaviour.</p>
+    </div>
+
+  </div>
+
+  <div class="next">
+    <span>R-03 · RECO / Reflective Companion</span>
+    <a href="research-r04-timeline.html">Next: R-04 · Generative Summaries →</a>
+  </div>
+
+</div>
+
+<div style="max-width:760px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

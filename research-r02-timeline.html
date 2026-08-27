@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R-02 — Translating Stakeholder Expectations into Agent Architecture — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:760px;margin:32px auto;background:var(--surface);border:var(--border) solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .topbar a.back{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .topbar a.back svg{width:var(--icon-xs);height:var(--icon-xs);}
+
+  .main{padding:36px 40px 12px;}
+
+  .kicker{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:var(--space-sm);}
+
+  h1{font-size:var(--text-display);font-weight:750;letter-spacing:-0.015em;line-height:1.25;margin:0 0 var(--space-sm);}
+  .dek{color:var(--muted);font-size:var(--text-base);max-width:560px;margin:0 0 var(--space-lg);}
+
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-lg);}
+  .meta-chip{background:var(--neutral-tag);border-radius:var(--radius-pill);padding:5px 13px;
+    font-size:var(--text-micro);color:var(--muted);white-space:nowrap;}
+  .meta-chip b{color:var(--ink);font-weight:500;font-family:var(--sans);}
+
+  .sec{padding:var(--space-xl) 0;border-top:var(--border) solid var(--line);}
+  .sec .n{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;margin-bottom:var(--space-xs);}
+  .sec h2{font-size:var(--text-section);font-weight:700;letter-spacing:-0.01em;margin:0 0 var(--space-sm);}
+  .sec > p{font-size:var(--text-base);color:var(--ink);margin:0 0 var(--space-md);}
+  .sec p.lead{}
+  .sec p.muted{color:var(--muted);}
+  .sec em.is-emphasis, .sec strong.is-emphasis{color:var(--ink);font-weight:650;}
+
+  /* CALLOUT */
+  .callout{border-radius:var(--radius-lg);margin-bottom:var(--space-sm);}
+  .callout__label{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .callout__body{margin:0;color:var(--ink);font-size:var(--text-base);}
+  .callout--question{position:relative;padding:var(--space-sm) 0 var(--space-sm) var(--space-lg);margin-bottom:var(--space-xl);}
+  .callout--question::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+    border-radius:var(--radius-pill);background:var(--accent);}
+  .callout--question .callout__label{color:var(--accent);}
+  .callout--question .callout__body{color:var(--ink);font-size:var(--text-base);font-style:italic;}
+  .callout--note{padding:var(--space-md);background:var(--accent-soft);border-radius:var(--radius-lg);text-align:center;}
+  .callout--caution{display:block;padding-top:var(--space-sm);border-top:var(--border) dashed var(--line);
+    color:var(--muted);font-size:var(--text-small);margin:var(--space-md) 0;}
+  .callout--takeaway{padding:var(--space-lg);background:var(--ink);margin:8px 0 var(--space-xl);}
+  .callout--takeaway .callout__label{color:var(--inverse-muted);}
+  .callout--takeaway .callout__body{color:var(--inverse);font-weight:600;}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:var(--space-md) 0;}
+  .data-table{width:100%;min-width:440px;border-collapse:collapse;font-size:var(--text-small);}
+  .data-table th{color:var(--accent);font-family:var(--mono);font-size:var(--text-micro);font-weight:400;
+    text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:var(--space-sm) var(--space-md);
+    border-bottom:var(--border) solid var(--line);}
+  .data-table th.is-numeric{text-align:right;}
+  .data-table td{padding:var(--space-sm) var(--space-md);color:var(--muted);vertical-align:top;
+    border-bottom:var(--border) solid var(--line);}
+  .data-table tbody tr:last-child td{border-bottom:none;}
+  .data-table td strong{display:block;color:var(--ink);font-weight:500;margin-bottom:2px;}
+  .data-table td span{display:block;color:var(--muted);font-size:var(--text-micro);}
+  .is-numeric{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;
+    color:var(--ink);white-space:nowrap;}
+  .is-emphasis{color:var(--accent);font-weight:400;}
+  .is-muted{color:var(--muted);font-style:italic;}
+
+  /* KEY-VALUE */
+  .key-value{display:grid;grid-template-columns:max-content 1fr;column-gap:var(--space-md);margin:var(--space-md) 0;}
+  .key-value__row{display:contents;}
+  .key-value__row .key-value__key{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row .key-value__value{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row:last-child .key-value__key,
+  .key-value__row:last-child .key-value__value{border-bottom:none;}
+  .key-value__key{max-width:200px;flex-shrink:0;color:var(--ink);font-weight:500;font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value{min-width:0;color:var(--muted);font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value .term{display:inline-block;background:var(--neutral-tag);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);padding:3px 10px;border-radius:var(--radius-pill);margin:2px 4px 2px 0;}
+  .key-value--numbered .key-value__row{align-items:flex-start;}
+  .key-value__index{flex-shrink:0;width:20px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);padding-top:1px;}
+
+  /* CARD */
+  .card-grid{display:grid;gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .card-grid--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .card-grid--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .card{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);box-sizing:border-box;}
+  .card__label{display:block;margin-bottom:5px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .card__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .card__body{color:var(--ink);font-size:var(--text-small);line-height:1.5;}
+
+  /* PROCESS */
+  .process{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+    border:var(--border) solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);
+    margin:var(--space-sm) 0;}
+  .process__node{padding:var(--space-md);border-left:var(--border) solid var(--line);}
+  .process__node:first-child{border-left:none;}
+  .process__index{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);}
+  .process__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .process__body{color:var(--muted);font-size:var(--text-small);line-height:1.5;}
+
+  /* METRIC GROUP */
+  .metric-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .metric{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);text-align:center;}
+  .metric__value{display:block;margin-bottom:4px;color:var(--accent);font-family:var(--mono);
+    font-weight:750;font-size:20px;}
+  .metric__label{color:var(--muted);font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* CHART */
+  .chart{border:var(--border) solid var(--line);border-radius:var(--radius-lg);padding:var(--space-md);
+    background:var(--surface);margin:var(--space-md) 0;}
+  .chart__caption{margin-bottom:var(--space-sm);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .bar-row{display:grid;grid-template-columns:92px 1fr 46px;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .bar-row:first-of-type{margin-top:0;}
+  .chart__label{color:var(--ink);font-family:var(--sans);font-weight:500;font-size:var(--text-small);}
+  .bar-track{height:9px;border-radius:var(--radius-pill);background:var(--bg);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:inherit;background:var(--accent);}
+  .chart__value{color:var(--muted);font-family:var(--mono);font-size:var(--text-small);text-align:right;}
+  .chart__note{grid-column:1/-1;color:var(--muted);font-size:var(--text-micro);margin-top:-4px;}
+  .range-line{display:grid;grid-template-columns:100px 1fr;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .range-line:first-of-type{margin-top:0;}
+  .range-track{position:relative;height:20px;}
+  .range-base{position:absolute;inset:7px 0 auto;height:6px;border-radius:var(--radius-pill);background:var(--bg);}
+  .range-band{position:absolute;top:7px;left:var(--start);width:calc(var(--end) - var(--start));height:6px;
+    border-radius:var(--radius-pill);background:var(--accent-soft);}
+  .range-dot{position:absolute;top:10px;left:var(--value);width:10px;height:10px;border-radius:50%;
+    background:var(--accent);transform:translate(-50%,-50%);}
+
+  .next{display:flex;justify-content:space-between;align-items:center;padding:18px var(--space-2xl);
+    border-top:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .next a{color:var(--accent);}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:var(--border) solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .main{padding:var(--space-lg) 20px 8px;}
+    .topbar,.next,.foot{padding-left:20px;padding-right:20px;}
+    .card-grid--2,.card-grid--3,.card-grid--4{grid-template-columns:1fr;}
+    .metric-group{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .process{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr;}
+    .process__node{border-left:none;border-top:var(--border) solid var(--line);}
+    .process__node:first-child{border-top:none;}
+    .key-value__key{width:100%;}
+    h1{font-size:20px;}
+  }
+
+  /* TABLE variants */
+  .data-table td:first-child{color:var(--ink);font-weight:500;font-family:var(--sans);font-size:var(--text-small);min-width:140px;white-space:nowrap;}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <a class="back" href="research-timeline.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Research</a>
+  </div>
+
+  <div class="main">
+
+    <div class="kicker">RECO / Reflective Companion</div>
+    <h1>Translating Stakeholder Expectations into Agent Architecture</h1>
+    <p class="dek">Mapping expectations across the social-prescribing journey made visible how qualitative needs became agents, tools, memory, infrastructure, and interaction policies.</p>
+
+        <div class="meta-chips">
+      <span class="meta-chip"><b>Period</b> &middot; Aug 2025 &ndash; Sep 2025</span>
+      <span class="meta-chip"><b>Type</b> &middot; Participatory Design &middot; Agent Architecture &middot; Design Traceability</span>
+      <span class="meta-chip"><b>Participants</b> &middot; 8 young people &middot; 3 link workers</span>
+    </div>
+
+    <div class="callout callout--question">
+      <span class="callout__label">Research question</span>
+      <p class="callout__body">How can stakeholder expectations be translated into an LLM-agent architecture without losing sight of where those decisions came from?</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">01 &middot; TRANSLATION</div>
+      <h2>Expectations are not yet a system</h2>
+      <p class="lead">Participatory design surfaced roles stakeholders imagined for AI. Implementation still required another layer of interpretation.</p>
+      <p>&ldquo;Personalisation&rdquo; could become persistent memory, a user profile, adaptive prompting, or a dedicated component. &ldquo;Companionship&rdquo; could become its own agent &mdash; or a cross-cutting interaction policy. Each choice introduces different assumptions about agency, privacy, memory, and responsibility.</p>
+      <p class="callout callout--caution">The design problem became one of traceability: keeping visible how a stakeholder expectation became an architectural decision.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">02 &middot; JOURNEY</div>
+      <h2>Mapping expectations across the social-prescribing journey</h2>
+      <p>Before deciding what should become an agent, tool, database, or interaction rule, expectations were mapped back onto where they appeared in the care journey.</p>
+      <div class="process">
+        <div class="process__node"><span class="process__title">Formal session</span><span class="process__body">Goals, context, support discussed.</span></div>
+        <div class="process__node"><span class="process__title">Between sessions</span><span class="process__body">Daily changes accumulate.</span></div>
+        <div class="process__node"><span class="process__title">Community activity</span><span class="process__body">Participation creates constraints.</span></div>
+        <div class="process__node"><span class="process__title">Reflection</span><span class="process__body">Experience is interpreted.</span></div>
+        <div class="process__node"><span class="process__title">Next session</span><span class="process__body">Insight returns to follow-up.</span></div>
+      </div>
+      <p>This helped separate what needed to happen inside the conversation from what belonged to the wider service infrastructure.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">03 &middot; AXIS</div>
+      <h2>The mapping revealed a central conversational axis</h2>
+      <p class="lead">Several features depended on information that could only emerge gradually through dialogue: goals, preferences, barriers, mood, activity experience, and changing interests.</p>
+      <div class="key-value">
+        <div class="key-value__row"><span class="key-value__key">Goal support</span><span class="key-value__value">Planning and tracking depend on goals, progress, and barriers that emerge through ongoing check-ins.</span></div>
+        <div class="key-value__row"><span class="key-value__key">Activity connection</span><span class="key-value__value">Recommendation depends on preferences, contextual constraints, and previous activity experience.</span></div>
+        <div class="key-value__row"><span class="key-value__key">Contextual profile</span><span class="key-value__value">Persistent attributes can support personalisation without independently driving the conversation.</span></div>
+        <div class="key-value__row"><span class="key-value__key">Social companion</span><span class="key-value__value">Empathy, support, and non-judgement operate as a policy across components rather than one separate agent.</span></div>
+        <div class="key-value__row"><span class="key-value__key">Session logging</span><span class="key-value__value">Strengthens continuity and professional workflow without defining the central young-person dialogue.</span></div>
+      </div>
+      <p>Check-in therefore became less like another module and more like the conversational axis around which the rest of the system could organise.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">04 &middot; CONSOLIDATION</div>
+      <h2>Similar expectations did not need separate components</h2>
+      <p>The ten stakeholder themes did not become ten technical components. Expectations that shared operations or information were consolidated before architecture was assigned.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Stakeholder expectations</th><th>Consolidated mechanism</th></tr></thead>
+          <tbody>
+            <tr><td>Goal Planner + Goal Tracker</td><td>Goal Manager</td></tr>
+            <tr><td>Personal Profiler + Interest Bank</td><td>Contextual Profiler</td></tr>
+            <tr><td>Activity Connector + Activity Recommender</td><td>Activity Connector</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="n">05 &middot; ARCHITECTURE</div>
+      <h2>Not every expectation became an agent</h2>
+      <p class="lead">A useful question was not only &ldquo;Should this exist?&rdquo; but &ldquo;What kind of architectural role should it have?&rdquo;</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Expectation</th><th>Architectural role</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>Check-in Mate</td><td>Primary Agent</td><td>Sustained open-ended reflection.</td></tr>
+            <tr><td>Goal Manager</td><td>Sub-agent</td><td>Goal-related topics trigger planning.</td></tr>
+            <tr><td>Activity Connector</td><td>Sub-agent</td><td>Suggest options when relevant.</td></tr>
+            <tr><td>Contextual Profiler</td><td>Tool</td><td>Extract and save attributes.</td></tr>
+            <tr><td>Social Companion</td><td>Interaction Policy</td><td>Shapes every component.</td></tr>
+            <tr><td>Session Logger</td><td>Infrastructure</td><td>Continuity without its own dialogue.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout callout--takeaway">
+      <span class="callout__label">Design takeaway</span>
+      <p class="callout__body">Stakeholders may be responding to the same underlying challenge, but what they expect from AI changes subtly with their role and perspective.</p>
+    </div>
+
+  </div>
+
+  <div class="next">
+    <span>R-02 · RECO / Reflective Companion</span>
+    <a href="research-r03-timeline.html">Next: R-03 · Architectural Consequences →</a>
+  </div>
+
+</div>
+
+<div style="max-width:760px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

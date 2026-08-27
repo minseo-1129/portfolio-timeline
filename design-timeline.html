@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:880px;margin:32px auto;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,0.04), 0 12px 32px rgba(24,24,27,0.05);}
+
+  .topbar{display:flex;justify-content:flex-end;align-items:center;
+    padding:var(--space-md) 32px;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:var(--space-sm);}
+  .topbar nav{display:flex;gap:var(--space-lg);font-size:var(--text-small);color:var(--muted);flex-wrap:wrap;}
+  .topbar nav a:hover{color:var(--accent);}
+  .topbar nav a.active{color:var(--ink);font-weight:600;}
+
+  .main{padding:34px 40px 60px;}
+
+  .crumb{display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:var(--text-micro);color:var(--muted);letter-spacing:.10em;
+    text-transform:uppercase;margin-bottom:var(--space-2xl);}
+  .crumb strong{color:var(--ink);font-weight:600;}
+
+  .head h1{font-family:var(--mono);font-size:var(--text-section);font-weight:400;letter-spacing:.08em;
+    text-transform:uppercase;margin:0 0 30px;}
+
+  .year-label{font-family:var(--mono);font-size:var(--text-small);color:var(--muted);letter-spacing:.03em;
+    margin:0 0 var(--space-sm);}
+  .grid + .year-label{margin-top:30px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:var(--space-md);margin-bottom:var(--space-xs);}
+
+  .card{position:relative;display:flex;flex-direction:column;gap:var(--space-sm);padding:var(--space-md);
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+    transition:border-color .15s ease, transform .15s ease;}
+  a.card:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .card.static{cursor:default;}
+
+  .card .icn{width:var(--icon-lg);height:var(--icon-lg);color:var(--accent);}
+  .card .icn svg{width:100%;height:100%;}
+
+  .card-arrow{position:absolute;top:14px;right:14px;width:var(--icon-xs);height:var(--icon-xs);color:var(--accent);
+    opacity:0;transform:translate(-3px,3px);transition:all .15s ease;}
+  a.card:hover .card-arrow{opacity:1;transform:translate(0,0);}
+
+  .card h3{font-size:var(--text-small);font-weight:650;line-height:1.4;}
+  .card p{font-size:var(--text-small);color:var(--muted);line-height:1.5;flex:1;}
+  .card .meta{font-family:var(--mono);font-size:var(--text-micro);color:var(--muted);
+    border-top:1px dashed var(--line);padding-top:var(--space-xs);}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:1px solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);}
+  .foot a{text-decoration:underline;text-underline-offset:3px;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .topbar{padding:var(--space-md) 20px;}
+    .topbar nav{gap:var(--space-sm);font-size:var(--text-small);}
+    .main{padding:var(--space-lg) 18px 48px;}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="research-timeline.html">Research</a>
+      <a href="design-timeline.html" class="active">Design</a>
+      <a href="publications-timeline.html">Publications</a>
+      <a href="about-timeline.html">About</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="crumb"><span>D — 00</span><strong>Contents</strong></div>
+
+    <div class="head"><h1>Design</h1></div>
+
+    <div class="year-label">2022</div>
+    <div class="grid">
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="14" height="14" rx="2"/><circle cx="9" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <h3>Math Hero</h3>
+        <p>Adaptive game for personalised elementary math practice.</p>
+        <div class="meta">Jan – Mar 2022</div>
+      </article>
+    </div>
+
+    <div class="year-label">2021</div>
+    <div class="grid">
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4 Q8 12 12 12 Q16 12 16 4 Z"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="8" y1="20" x2="16" y2="20"/></svg></span>
+        <h3>Winnus</h3>
+        <p>Multisensory wine guide for beginners.</p>
+        <div class="meta">Aug – Dec 2021 · UMC</div>
+      </article>
+      <a class="card" href="design-sorakdowon-timeline.html">
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="14" r="6.5"/><circle cx="12" cy="9.5" r="6.5" opacity="0.5"/></svg></span>
+        <h3>Sorakdowon</h3>
+        <p>Traditional liquor brand design.</p>
+        <div class="meta">Apr – May 2021 · Brand Identity</div>
+      </a>
+      <a class="card" href="design-void-timeline.html">
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="4" x2="12" y2="20"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="9" y1="20" x2="15" y2="20"/></svg></span>
+        <h3>Void</h3>
+        <p>Calendar design with city sky views.</p>
+        <div class="meta">Mar – Jun 2021 · Visual System</div>
+      </a>
+    </div>
+
+    <div class="year-label">2020</div>
+    <div class="grid">
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="1.2"/><path d="M12 6.2 L12 8 M4 17 L12 8 L20 17"/></svg></span>
+        <h3>PICO</h3>
+        <p>AI-powered outfit coordination service.</p>
+        <div class="meta">Dec '19 – Dec '20 · SOTA Labs</div>
+      </article>
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.3"/></svg></span>
+        <h3>Recipe Player</h3>
+        <p>Curated recipes for single households.</p>
+        <div class="meta">Sep – Dec 2020 · Yonsei</div>
+      </article>
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="7" width="12" height="10" rx="2"/><path d="M16 10 L20 8 V16 L16 14 Z"/></svg></span>
+        <h3>Sweetalk</h3>
+        <p>Video calls for long-distance couples.</p>
+        <div class="meta">Mar – Jun 2020 · Yonsei</div>
+      </article>
+      <a class="card" href="design-blafard-timeline.html">
+        <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="9" height="17" rx="1"/><rect x="15" y="10" width="6" height="11" rx="1"/><circle cx="7" cy="8" r="0.6" fill="currentColor" stroke="none"/><circle cx="10" cy="8" r="0.6" fill="currentColor" stroke="none"/><circle cx="7" cy="12" r="0.6" fill="currentColor" stroke="none"/><circle cx="10" cy="12" r="0.6" fill="currentColor" stroke="none"/><circle cx="7" cy="16" r="0.6" fill="currentColor" stroke="none"/><circle cx="10" cy="16" r="0.6" fill="currentColor" stroke="none"/></svg></span>
+        <h3>Blafard</h3>
+        <p>Invisible Cities by Italo Calvino.</p>
+        <div class="meta">Spring 2020 · Book Design</div>
+      </a>
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="4" opacity="0.5"/><path d="M9 21 L10 10 L14 10 L15 21 Z"/><line x1="9.6" y1="16" x2="14.4" y2="16"/><path d="M9.8 10 L10.2 7.5 L13.8 7.5 L14.2 10"/><path d="M9.5 7.5 L14.5 7.5 L12 5.3 Z"/></svg></span>
+        <h3>The Lighthouse</h3>
+        <p>Arduino mood lamp humidifier.</p>
+        <div class="meta">Mar – Jun 2020 · Yonsei</div>
+      </article>
+    </div>
+
+    <div class="year-label">2019</div>
+    <div class="grid">
+      <article class="card static">
+        <span class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><line x1="5" y1="19" x2="11" y2="19"/></svg></span>
+        <h3>Kiketch</h3>
+        <p>Interactive drawing book for early childhood.</p>
+        <div class="meta">Jun – Nov 2019</div>
+      </article>
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:880px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

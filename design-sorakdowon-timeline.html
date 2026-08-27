@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorakdowon — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:760px;margin:32px auto;background:var(--surface);border:var(--border) solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .topbar a.back{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .topbar a.back svg{width:var(--icon-xs);height:var(--icon-xs);}
+
+  .main{padding:32px 40px 10px;}
+
+  .kicker{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:var(--space-sm);}
+
+  h1{font-size:var(--text-display);font-weight:750;letter-spacing:-0.015em;line-height:1.28;margin:0 0 var(--space-sm);}
+  .dek{color:var(--muted);font-size:var(--text-base);max-width:560px;margin:0 0 var(--space-lg);}
+
+  .hero{margin-bottom:var(--space-lg);}
+  .hero img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;
+    border-radius:var(--radius-lg);border:var(--border) solid var(--line);}
+
+  .sec{padding:var(--space-xl) 0;border-top:var(--border) solid var(--line);}
+  .sec .n{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;margin-bottom:var(--space-xs);}
+  .sec h2{font-size:var(--text-section);font-weight:700;letter-spacing:-0.01em;margin:0 0 var(--space-sm);}
+  .sec > p{font-size:var(--text-base);color:var(--ink);margin:0 0 var(--space-md);}
+
+  /* ---------- CARD (independent units) — used for both facts and principles ---------- */
+  .card-grid{display:grid;gap:var(--space-sm);}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-lg);}
+  .meta-chip{background:var(--neutral-tag);border-radius:var(--radius-pill);padding:5px 13px;
+    font-size:var(--text-micro);color:var(--muted);white-space:nowrap;}
+  .meta-chip b{color:var(--ink);font-weight:500;font-family:var(--sans);}
+  .card-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .card{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);box-sizing:border-box;}
+  .card__label{display:block;margin-bottom:5px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .card__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .card__body{color:var(--ink);font-size:var(--text-small);line-height:1.5;}
+
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);margin-top:var(--space-md);}
+  .gallery img{display:block;width:100%;height:180px;object-fit:cover;border-radius:var(--radius-md);
+    border:var(--border) solid var(--line);}
+  .gallery .wide{grid-column:1/-1;}
+  .gallery .wide img{height:220px;}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:var(--border) solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;}
+  .foot a{text-decoration:underline;text-underline-offset:3px;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .main{padding:var(--space-lg) 20px 6px;}
+    .topbar,.foot{padding-left:20px;padding-right:20px;}
+    .card-grid--3,.facts-grid{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:1fr;}
+    h1{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <a class="back" href="design-timeline.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Design</a>
+  </div>
+
+  <div class="main">
+    <div class="kicker">Brand Identity · 2021</div>
+    <h1>Traditional Liquor Brand Design — Sorakdowon</h1>
+    <p class="dek">Brand identity for a fictional Korean traditional liquor brand.</p>
+
+    <div class="hero">
+      <img alt="Sorakdowon traditional liquor bottle packaging shown against a pale grey background" src="https://minseo-1129.github.io/assets/images/sorakdowon/bottle.png">
+    </div>
+
+        <div class="meta-chips">
+      <span class="meta-chip"><b>Role</b> &middot; Brand designer</span>
+      <span class="meta-chip"><b>Timeline</b> &middot; Apr – May 2021</span>
+      <span class="meta-chip"><b>Scope</b> &middot; Identity · Applications</span>
+    </div>
+
+    <div class="sec">
+      <div class="n">01 &middot; DESIGN DIRECTION</div>
+      <h2>Design Direction</h2>
+      <p>Sorakdowon pairs a circular landscape mark with a restrained grey, charcoal, and vermilion palette. The identity carries across transparent bottle labels and compact cans, balancing references to Korean visual culture with a minimal contemporary finish.</p>
+      <div class="card-grid card-grid--3">
+        <div class="card"><span class="card__title">Landscape symbol</span><span class="card__body">Layered arcs and repeating wave forms create a compact mark that suggests sun, horizon, and water.</span></div>
+        <div class="card"><span class="card__title">Restrained palette</span><span class="card__body">Soft neutrals keep the system quiet while vermilion provides a clear point of recognition.</span></div>
+        <div class="card"><span class="card__title">Application system</span><span class="card__body">The mark and geometric forms scale across bottle labels and cans without losing their simplicity.</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="n">02 &middot; SELECTED APPLICATIONS</div>
+      <h2>Selected Applications</h2>
+      <div class="gallery">
+        <img alt="Sorakdowon circular landscape symbol and Korean wordmark" src="https://minseo-1129.github.io/assets/images/sorakdowon/logo.png">
+        <img alt="Sorakdowon brand identity manual cover" src="https://minseo-1129.github.io/assets/images/sorakdowon/manual-cover.png">
+        <div class="wide"><img alt="Three Sorakdowon can packaging variations" src="https://minseo-1129.github.io/assets/images/sorakdowon/cans.png"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:760px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

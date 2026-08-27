@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T-01 — Calibrating AI Auditors Before Trusting Their Judgements — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:760px;margin:32px auto;background:var(--surface);border:var(--border) solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .topbar a.back{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .topbar a.back svg{width:var(--icon-xs);height:var(--icon-xs);}
+
+  .main{padding:36px 40px 12px;}
+
+  .kicker{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:var(--space-sm);}
+
+  h1{font-size:var(--text-display);font-weight:750;letter-spacing:-0.015em;line-height:1.25;margin:0 0 var(--space-sm);}
+  .dek{color:var(--muted);font-size:var(--text-base);max-width:560px;margin:0 0 var(--space-lg);}
+
+  .meta-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--space-lg);}
+  .meta-chip{background:var(--neutral-tag);border-radius:var(--radius-pill);padding:5px 13px;
+    font-size:var(--text-micro);color:var(--muted);white-space:nowrap;}
+  .meta-chip b{color:var(--ink);font-weight:500;font-family:var(--sans);}
+
+  .sec{padding:var(--space-xl) 0;border-top:var(--border) solid var(--line);}
+  .sec .n{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;margin-bottom:var(--space-xs);}
+  .sec h2{font-size:var(--text-section);font-weight:700;letter-spacing:-0.01em;margin:0 0 var(--space-sm);}
+  .sec > p{font-size:var(--text-base);color:var(--ink);margin:0 0 var(--space-md);}
+  .sec p.lead{}
+  .sec p.muted{color:var(--muted);}
+  .sec em.is-emphasis, .sec strong.is-emphasis{color:var(--ink);font-weight:650;}
+
+  /* CALLOUT */
+  .callout{border-radius:var(--radius-lg);margin-bottom:var(--space-sm);}
+  .callout__label{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .callout__body{margin:0;color:var(--ink);font-size:var(--text-base);}
+  .callout--question{position:relative;padding:var(--space-sm) 0 var(--space-sm) var(--space-lg);margin-bottom:var(--space-xl);}
+  .callout--question::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+    border-radius:var(--radius-pill);background:var(--accent);}
+  .callout--question .callout__label{color:var(--accent);}
+  .callout--question .callout__body{color:var(--ink);font-size:var(--text-base);font-style:italic;}
+  .callout--note{padding:var(--space-md);background:var(--accent-soft);border-radius:var(--radius-lg);text-align:center;}
+  .callout--caution{display:block;padding-top:var(--space-sm);border-top:var(--border) dashed var(--line);
+    color:var(--muted);font-size:var(--text-small);margin:var(--space-md) 0;}
+  .callout--takeaway{padding:var(--space-lg);background:var(--ink);margin:8px 0 var(--space-xl);}
+  .callout--takeaway .callout__label{color:var(--inverse-muted);}
+  .callout--takeaway .callout__body{color:var(--inverse);font-weight:600;}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:var(--space-md) 0;}
+  .data-table{width:100%;min-width:440px;border-collapse:collapse;font-size:var(--text-small);}
+  .data-table th{color:var(--accent);font-family:var(--mono);font-size:var(--text-micro);font-weight:400;
+    text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:var(--space-sm) var(--space-md);
+    border-bottom:var(--border) solid var(--line);}
+  .data-table th.is-numeric{text-align:right;}
+  .data-table td{padding:var(--space-sm) var(--space-md);color:var(--muted);vertical-align:top;
+    border-bottom:var(--border) solid var(--line);}
+  .data-table tbody tr:last-child td{border-bottom:none;}
+  .data-table td strong{display:block;color:var(--ink);font-weight:500;margin-bottom:2px;}
+  .data-table td span{display:block;color:var(--muted);font-size:var(--text-micro);}
+  .is-numeric{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;
+    color:var(--ink);white-space:nowrap;}
+  .is-emphasis{color:var(--accent);font-weight:400;}
+  .is-muted{color:var(--muted);font-style:italic;}
+  .data-table td:first-child{color:var(--ink);font-weight:500;font-family:var(--sans);font-size:var(--text-small);min-width:140px;white-space:nowrap;}
+
+  /* KEY-VALUE */
+  .key-value{display:grid;grid-template-columns:max-content 1fr;column-gap:var(--space-md);margin:var(--space-md) 0;}
+  .key-value__row{display:contents;}
+  .key-value__row .key-value__key{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row .key-value__value{border-bottom:var(--border) dashed var(--line);}
+  .key-value__row:last-child .key-value__key,
+  .key-value__row:last-child .key-value__value{border-bottom:none;}
+  .key-value__key{max-width:200px;flex-shrink:0;color:var(--ink);font-weight:500;font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value{min-width:0;color:var(--muted);font-size:var(--text-small);
+    padding:var(--space-sm) var(--space-md);}
+  .key-value__value .term{display:inline-block;background:var(--neutral-tag);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);padding:3px 10px;border-radius:var(--radius-pill);margin:2px 4px 2px 0;}
+  .key-value--numbered .key-value__row{align-items:flex-start;}
+  .key-value__index{flex-shrink:0;width:20px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);padding-top:1px;}
+
+  /* CARD */
+  .card-grid{display:grid;gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .card-grid--2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .card-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .card-grid--4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .card{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);box-sizing:border-box;}
+  .card__label{display:block;margin-bottom:5px;color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .card__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .card__body{color:var(--ink);font-size:var(--text-small);line-height:1.5;}
+
+  /* PROCESS */
+  .process{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+    border:var(--border) solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);
+    margin:var(--space-sm) 0;}
+  .process__node{padding:var(--space-md);border-left:var(--border) solid var(--line);}
+  .process__node:first-child{border-left:none;}
+  .process__index{display:block;margin-bottom:8px;color:var(--muted);font-family:var(--mono);font-size:var(--text-micro);}
+  .process__title{display:block;margin:0 0 6px;color:var(--ink);font-weight:500;font-size:var(--text-small);}
+  .process__body{color:var(--muted);font-size:var(--text-small);line-height:1.5;}
+
+  /* METRIC GROUP */
+  .metric-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-sm);margin:var(--space-sm) 0;}
+  .metric{background:var(--bg);border-radius:var(--radius-md);padding:var(--space-md);text-align:center;}
+  .metric__value{display:block;margin-bottom:4px;color:var(--accent);font-family:var(--mono);
+    font-weight:750;font-size:20px;}
+  .metric__label{color:var(--muted);font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.03em;}
+
+  /* CHART */
+  .chart{border:var(--border) solid var(--line);border-radius:var(--radius-lg);padding:var(--space-md);
+    background:var(--surface);margin:var(--space-md) 0;}
+  .chart__caption{margin-bottom:var(--space-sm);color:var(--muted);font-family:var(--mono);
+    font-size:var(--text-micro);text-transform:uppercase;letter-spacing:.04em;}
+  .bar-row{display:grid;grid-template-columns:92px 1fr 46px;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .bar-row:first-of-type{margin-top:0;}
+  .chart__label{color:var(--ink);font-family:var(--sans);font-weight:500;font-size:var(--text-small);}
+  .bar-track{height:9px;border-radius:var(--radius-pill);background:var(--bg);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:inherit;background:var(--accent);}
+  .chart__value{color:var(--muted);font-family:var(--mono);font-size:var(--text-small);text-align:right;}
+  .chart__note{grid-column:1/-1;color:var(--muted);font-size:var(--text-micro);margin-top:-4px;}
+  .range-line{display:grid;grid-template-columns:100px 1fr;gap:var(--space-sm);align-items:center;margin-top:var(--space-sm);}
+  .range-line:first-of-type{margin-top:0;}
+  .range-track{position:relative;height:20px;}
+  .range-base{position:absolute;inset:7px 0 auto;height:6px;border-radius:var(--radius-pill);background:var(--bg);}
+  .range-band{position:absolute;top:7px;left:var(--start);width:calc(var(--end) - var(--start));height:6px;
+    border-radius:var(--radius-pill);background:var(--accent-soft);}
+  .range-dot{position:absolute;top:10px;left:var(--value);width:10px;height:10px;border-radius:50%;
+    background:var(--accent);transform:translate(-50%,-50%);}
+
+  .next{display:flex;justify-content:space-between;align-items:center;padding:18px var(--space-2xl);
+    border-top:var(--border) solid var(--line);font-family:var(--mono);font-size:var(--text-micro);
+    color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .next a{color:var(--accent);}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:var(--border) solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);
+    font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .main{padding:var(--space-lg) 20px 8px;}
+    .topbar,.next,.foot{padding-left:20px;padding-right:20px;}
+    .card-grid--2,.card-grid--3,.card-grid--4{grid-template-columns:1fr;}
+    .metric-group{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+    .process{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:1fr;}
+    .process__node{border-left:none;border-top:var(--border) solid var(--line);}
+    .process__node:first-child{border-top:none;}
+    .key-value__key{width:100%;}
+    h1{font-size:20px;}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <a class="back" href="research-timeline.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg> Research</a>
+  </div>
+
+  <div class="main">
+
+    <div class="kicker">AI Evaluation / Red Teaming</div>
+    <h1>Calibrating AI Auditors Before Trusting Their Judgements</h1>
+    <p class="dek">If LLMs are used to evaluate other AI systems, the evaluator itself first becomes a measurement-design problem.</p>
+
+        <div class="meta-chips">
+      <span class="meta-chip"><b>Period</b> &middot; Feb 2026 &ndash; Aug 2026</span>
+      <span class="meta-chip"><b>Type</b> &middot; AI Evaluation &middot; LLM-as-Judge &middot; Self-Determination Theory</span>
+      <span class="meta-chip"><b>Evaluation set</b> &middot; 30 human participants &middot; 30 synthetic users</span>
+    </div>
+
+    <div class="callout callout--question">
+      <span class="callout__label">Research question</span>
+      <p class="callout__body">How can synthetic users and AI auditors be calibrated against human participants before we rely on them for pre-deployment evaluation?</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">01 &middot; RISK</div>
+      <h2>Before giving AI to young people</h2>
+      <p class="lead">A psychologically sensitive conversational system creates an uncomfortable evaluation problem: discovering a failure through repeated exposure can itself place vulnerable participants at risk.</p>
+      <p>Technical testing is necessary, but it cannot tell us whether an interaction makes someone feel controlled, incapable, misunderstood, dismissed, or pushed toward action before they are ready.</p>
+      <div class="process">
+        <div class="process__node"><span class="process__title">Synthetic user</span><span class="process__body">Encounters experimental agent variants</span></div>
+        <div class="process__node"><span class="process__title">AI auditor</span><span class="process__body">Estimates need support / frustration</span></div>
+        <div class="process__node"><span class="process__title">Human benchmark</span><span class="process__body">Calibrates whether synthetic judgement is trustworthy</span></div>
+      </div>
+      <p>The aim was not to replace human evaluation. Thirty human participants remained the benchmark, with 30 synthetic AI users used to test calibration.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">02 &middot; PERSONA</div>
+      <h2>Encode causes, not conclusions</h2>
+      <p>A synthetic persona can accidentally contain the answer to the outcome we later ask it to evaluate. If a profile explicitly says a person dislikes being told what to do, asking whether an agent supported their autonomy risks prompting the result rather than simulating it.</p>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Avoid</span><span class="card__body">Persona statements that directly encode the psychological judgement being measured.</span></div>
+        <div class="card"><span class="card__label">Prefer</span><span class="card__body">Upstream characteristics &mdash; everyday context, symptoms, emotion regulation, dispositions, self-efficacy, stress.</span></div>
+      </div>
+      <p>A synthetic user should contain conditions that may shape an outcome. It should not contain the outcome we are trying to predict.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">03 &middot; CALIBRATION</div>
+      <h2>The evaluator is part of the measurement design</h2>
+      <p class="lead">The observed judgement changed when we changed how the evaluation was framed.</p>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Measurement level</span><span class="card__title">Behaviour &rarr; task</span><span class="card__body">Task-level judgement reduced aggregate error relative to broader behaviour-level constructs.</span></div>
+        <div class="card"><span class="card__label">Perspective</span><span class="card__title">Third person &rarr; first person</span><span class="card__body">Asking the synthetic participant to report its own experience brought estimates closer to the human benchmark.</span></div>
+        <div class="card"><span class="card__label">Context</span><span class="card__title">Thin &rarr; situated</span><span class="card__body">Context improved first-person evaluation across autonomy, competence, and relatedness.</span></div>
+        <div class="card"><span class="card__label">Evaluator</span><span class="card__title">Generator &rarr; stronger reasoner</span><span class="card__body">A stronger evaluation model moved closer to the human benchmark.</span></div>
+      </div>
+      <p>An AI auditor is not a neutral ruler. Perspective, abstraction, context, and model capability all affect what it measures.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">04 &middot; INSTRUMENT</div>
+      <h2>Synthetic user as an experimental instrument</h2>
+      <p>It is less useful to think of the synthetic user as a fixed artificial person and more useful to think of the whole configuration as a measurement instrument.</p>
+      <div class="callout callout--note">
+        <p class="callout__body"><strong>Synthetic response</strong> = Person &times; Context &times; Measurement &times; Model</p>
+      </div>
+      <p>Who the persona is matters, but so does the situation, the question, the abstraction level, the perspective from which it&rsquo;s answered, and the model that performs the reasoning.</p>
+      <p>Changing any one part can change the synthetic &ldquo;participant&rdquo; we think we are observing.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">05 &middot; BENCHMARK</div>
+      <h2>How close could the final configuration get?</h2>
+      <p>The final synthetic configuration was compared with mean METUX ratings from the 30 human participants.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Dimension</th><th class="is-numeric">Human</th><th class="is-numeric">Synthetic</th><th class="is-numeric">Gap</th></tr></thead>
+          <tbody>
+            <tr><td>Autonomy frustration</td><td class="is-numeric">1.36</td><td class="is-numeric">1.28</td><td class="is-emphasis is-numeric">0.08</td></tr>
+            <tr><td>Autonomy support</td><td class="is-numeric">5.30</td><td class="is-numeric">5.29</td><td class="is-emphasis is-numeric">0.01</td></tr>
+            <tr><td>Competence frustration</td><td class="is-numeric">1.69</td><td class="is-numeric">1.81</td><td class="is-emphasis is-numeric">0.12</td></tr>
+            <tr><td>Competence support</td><td class="is-numeric">5.54</td><td class="is-numeric">5.38</td><td class="is-emphasis is-numeric">0.16</td></tr>
+            <tr><td>Relatedness frustration</td><td class="is-numeric">2.04</td><td class="is-numeric">1.53</td><td class="is-numeric">0.51</td></tr>
+            <tr><td>Relatedness support</td><td class="is-numeric">4.26</td><td class="is-numeric">3.62</td><td class="is-numeric">0.64</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Autonomy and competence became strikingly close. Relatedness remained much harder to reproduce.</p>
+    </div>
+
+    <div class="sec">
+      <div class="n">06 &middot; BOUNDARY</div>
+      <h2>A mismatch can define the boundary of trust</h2>
+      <p class="lead">Autonomy and competence leave substantial evidence in the observable interaction. Relatedness can depend more strongly on whether somebody felt cared for, connected, or personally understood.</p>
+      <div class="card-grid card-grid--2">
+        <div class="card"><span class="card__label">Use synthetic evaluation for</span><span class="card__body">Repeated pre-deployment testing, surfacing failure modes, comparing configurations.</span></div>
+        <div class="card"><span class="card__label">Keep humans essential for</span><span class="card__body">Constructs and experiences synthetic evaluation cannot reproduce with acceptable calibration.</span></div>
+      </div>
+      <p>The goal is not &ldquo;Can AI replace participants?&rdquo; It is &ldquo;What psychological failures can we surface before a vulnerable participant encounters the system?&rdquo;</p>
+    </div>
+
+    <div class="callout callout--takeaway">
+      <span class="callout__label">Design takeaway</span>
+      <p class="callout__body">Synthetic evaluation should not be trusted because it looks human-like. It should be trusted only to the extent that it has been calibrated against humans.</p>
+    </div>
+
+  </div>
+
+  <div class="next">
+    <span>T-01 · AI Evaluation / Red Teaming</span>
+    <a href="research-timeline.html">Next: Research index →</a>
+  </div>
+
+</div>
+
+<div style="max-width:760px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>
