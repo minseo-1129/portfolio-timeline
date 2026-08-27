@@ -1,0 +1,48 @@
+{
+  "winnus": {
+    "hero": "overview.jpg",
+    "gallery": [
+      "wine-view-01.jpg",
+      "wine-view-02.jpg",
+      "articles.jpg"
+    ]
+  },
+  "pico": {
+    "hero": "overview.jpg",
+    "gallery": [
+      "home.png",
+      "add-item.png",
+      "wardrobe-category.png",
+      "recommendation.png",
+      "photo-upload.png",
+      "wardrobe-grid.png",
+      "outfit-detail.png",
+      "profile.png",
+      "item-edit.png"
+    ]
+  },
+  "lighthouse": {
+    "hero": "overview-01.jpg",
+    "gallery": [
+      "overview-02.jpg",
+      "documentation.jpg",
+      "process-01.jpg",
+      "process-02.jpg",
+      "circuit-diagram.jpg"
+    ]
+  },
+  "kiketch": {
+    "hero": "screen-04.jpg",
+    "gallery": [
+      "screen-01.jpg",
+      "screen-02.jpg",
+      "screen-03.jpg",
+      "screen-05.jpg"
+    ]
+  },
+  "missing_from_upload": [
+    "math-hero",
+    "recipe-player",
+    "sweetalk"
+  ]
+}
