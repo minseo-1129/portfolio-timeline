@@ -36,7 +36,13 @@
     padding:var(--space-md) var(--space-2xl);border-bottom:var(--border) solid var(--line);flex-wrap:wrap;gap:var(--space-sm);}
     .topbar nav{display:flex;gap:var(--space-lg);font-size:var(--text-small);color:var(--muted);flex-wrap:wrap;}
   .topbar nav a:hover{color:var(--accent);}
-  .topbar nav a.active{color:var(--ink);font-weight:600;}
+  .topbar nav a{
+    font-weight:500;
+  }
+  
+  .topbar nav a.active{
+    color:var(--ink);
+  }
 
   /* ---------- MAIN ---------- */
   .main{padding:34px 40px 56px;}
