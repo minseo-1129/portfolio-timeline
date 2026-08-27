@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Minseo Cho</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:880px;margin:32px auto;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:flex-end;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);flex-wrap:wrap;gap:var(--space-sm);}
+    .topbar nav{display:flex;gap:var(--space-lg);font-size:var(--text-small);color:var(--muted);flex-wrap:wrap;}
+  .topbar nav a:hover{color:var(--accent);}
+  .topbar nav a.active{color:var(--ink);font-weight:600;}
+
+  .main{padding:34px 40px 56px;}
+  .crumb{display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:var(--text-micro);color:var(--muted);letter-spacing:.10em;
+    text-transform:uppercase;margin-bottom:var(--space-2xl);}
+  .crumb strong{color:var(--ink);font-weight:600;}
+  .head{margin-bottom:var(--space-xl);}
+  .head h1{font-family:var(--mono);font-size:var(--text-section);font-weight:400;letter-spacing:.08em;text-transform:uppercase;margin:0;}
+
+  .eyebrow{font-family:var(--mono);font-size:var(--text-micro);color:var(--accent);letter-spacing:.04em;
+    margin:0 0 var(--space-sm);}
+  .gcard + .eyebrow, .chips + .eyebrow{margin-top:var(--space-xl);}
+
+  .gcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;}
+
+  .edu-row{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-md);
+    padding:var(--space-md) 18px;border-top:1px solid var(--line);}
+  .edu-row:first-child{border-top:none;}
+  .edu-row .deg{font-weight:650;font-size:var(--text-small);}
+  .edu-row .org{color:var(--muted);font-size:var(--text-small);margin-top:3px;}
+  .edu-row .term{font-family:var(--mono);font-size:var(--text-micro);color:var(--muted);white-space:nowrap;
+    flex-shrink:0;text-align:right;padding-top:1px;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:var(--space-xs);}
+  .chip{background:var(--accent-soft);color:var(--accent);font-size:var(--text-small);font-weight:550;
+    padding:7px 13px;border-radius:var(--radius-pill);}
+
+  .pending{padding:18px;color:var(--muted);font-size:var(--text-small);font-style:italic;}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:1px solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);}
+  .foot a{text-decoration:underline;text-underline-offset:3px;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .topbar{padding:14px 20px;}
+    .topbar nav{gap:var(--space-sm);font-size:var(--text-small);}
+    .main{padding:24px 18px 48px;}
+    .edu-row{flex-direction:column;gap:4px;}
+    .edu-row .term{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="research-timeline.html">Research</a>
+      <a href="design-timeline.html">Design</a>
+      <a href="publications-timeline.html">Publications</a>
+      <a href="about-timeline.html" class="active">About</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="crumb"><span>A — 00</span><strong>Contents</strong></div>
+    <div class="head"><h1>About</h1></div>
+
+    <div class="eyebrow">EDUCATION</div>
+    <div class="gcard">
+      <div class="edu-row">
+        <div><div class="deg">PhD, Design Engineering</div><div class="org">Imperial College London · London, United Kingdom</div></div>
+        <div class="term">Sep 2024 — Aug 2028</div>
+      </div>
+      <div class="edu-row">
+        <div><div class="deg">MEng, Human–Computer Interaction</div><div class="org">Yonsei University · Seoul, Korea</div></div>
+        <div class="term">Sep 2022 — Aug 2024</div>
+      </div>
+      <div class="edu-row">
+        <div><div class="deg">BSc, Information and Interaction Design</div><div class="org">Yonsei University · Seoul, Korea</div></div>
+        <div class="term">Mar 2019 — Aug 2022</div>
+      </div>
+      <div class="edu-row">
+        <div><div class="deg">BA, Communication and Media Studies</div><div class="org">Yonsei University · Seoul, Korea</div></div>
+        <div class="term">Mar 2019 — Aug 2022</div>
+      </div>
+    </div>
+
+    <div class="eyebrow">CORE SKILLSETS</div>
+    <div class="chips">
+      <span class="chip">Quantitative / Qualitative UX Research</span>
+      <span class="chip">Interface Design &amp; Prototyping</span>
+      <span class="chip">Web Development — HTML / CSS / JS</span>
+      <span class="chip">User Evaluation</span>
+    </div>
+
+    <div class="eyebrow">JOB EXPERIENCE</div>
+    <div class="gcard">
+      <div class="pending">to be added.</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:880px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>

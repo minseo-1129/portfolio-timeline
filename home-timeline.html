@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minseo Cho — HCI Researcher &amp; Designer</title>
+<style>
+  :root{
+    --bg:#F6F5F2;--surface:#FFFFFF;--ink:#18181B;--muted:#71717A;--line:#E7E5E2;
+    --accent:#6D5EF5;--accent-soft:#EFEDFD;--surface-hover:#FAFAFC;--line-hover:#D8D5F5;--neutral-tag:#F4F3F1;--inverse:#FFFFFF;--inverse-muted:#A78BFA;--award:#A9760C;--space-xs:8px;--space-sm:12px;--space-md:16px;--space-lg:24px;--space-xl:30px;--space-2xl:40px;--space-3xl:56px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;--radius-pill:999px;--text-micro:11px;--text-small:13px;--text-base:14px;--text-section:16px;--text-display:24px;--text-hero:26px;--icon-xs:12px;--icon-sm:16px;--icon-lg:24px;--border:1px;--border-emphasis:2px;--stroke-thin:1.5;--stroke-mid:2;--stroke-thick:2.5;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .app{max-width:880px;margin:32px auto;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 32px rgba(24,24,27,.05);}
+
+  .topbar{display:flex;justify-content:flex-end;align-items:center;padding:var(--space-md) var(--space-2xl);
+    border-bottom:var(--border) solid var(--line);flex-wrap:wrap;gap:var(--space-sm);}
+  .topbar nav{display:flex;gap:var(--space-lg);font-size:var(--text-small);color:var(--muted);flex-wrap:wrap;}
+  .topbar nav a:hover{color:var(--accent);}
+  .topbar nav a.active{color:var(--ink);font-weight:600;}
+
+  .main{padding:30px 40px 56px;}
+
+  .crumb{display:flex;justify-content:space-between;align-items:baseline;
+    font-family:var(--mono);font-size:var(--text-micro);color:var(--muted);letter-spacing:.10em;
+    text-transform:uppercase;margin-bottom:var(--space-3xl);}
+  .crumb strong{color:var(--ink);font-weight:600;}
+
+  h1{font-size:var(--text-hero);font-weight:750;letter-spacing:-0.02em;margin:0 0 10px;}
+  .subtitle{color:var(--accent);font-family:var(--mono);font-size:var(--text-small);font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--space-lg);}
+
+  .intro{color:var(--muted);font-family:var(--mono);font-size:var(--text-small);margin-bottom:6px;}
+  .intro:last-of-type{margin-bottom:var(--space-lg);}
+  .intro a{border-bottom:1px dashed var(--accent);}
+  .intro a:hover{color:var(--accent);border-bottom-style:solid;}
+
+  .socials{display:flex;gap:var(--space-md);font-family:var(--mono);font-size:var(--text-small);}
+  .socials a{border-bottom:1px dashed var(--accent);}
+  .socials a:hover{color:var(--accent);border-bottom-style:solid;}
+
+  .foot{padding:var(--space-lg) var(--space-2xl);border-top:1px solid var(--line);display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:var(--space-sm);font-size:var(--text-micro);color:var(--muted);}
+  .foot a{text-decoration:underline;text-underline-offset:3px;}
+
+  @media (max-width:720px){
+    .app{margin:0;border-radius:0;min-height:100vh;}
+    .topbar{padding:var(--space-md) 20px;}
+    .topbar nav{gap:var(--space-sm);font-size:var(--text-small);}
+    .main{padding:var(--space-lg) 18px 48px;}
+    h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="research-timeline.html">Research</a>
+      <a href="design-timeline.html">Design</a>
+      <a href="publications-timeline.html">Publications</a>
+      <a href="about-timeline.html">About</a>
+    </nav>
+  </div>
+
+  <div class="main">
+    <div class="crumb"><span>H — 00</span><strong>Contents</strong></div>
+
+    <header>
+      <h1>hello, i'm minseo cho</h1>
+      <div class="subtitle">hci researcher &amp; designer</div>
+      <p class="intro">@ <a href="https://www.imperial.ac.uk/" target="_blank" rel="noopener noreferrer">imperial college london</a></p>
+      <p class="intro">london · uk</p>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/minseo-cho-4b919a201" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:m.cho24@imperial.ac.uk">Email</a>
+      </div>
+    </header>
+  </div>
+
+</div>
+
+<div style="max-width:880px;margin:0 auto 40px;" class="foot">
+  <span>© 2026 Minseo</span>
+</div>
+
+</body>
+</html>
